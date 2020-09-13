@@ -16,4 +16,8 @@ public abstract class Piece {
     }
 
     public abstract Collection<Move> calculateMoves(final Board board);
+
+    public Alliance getPieceAlliance() {
+        return pieceAlliance;
+    }
 }
