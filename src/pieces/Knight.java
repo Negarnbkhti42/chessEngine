@@ -7,6 +7,8 @@ import board.Tile;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import static board.Move.*;
+
 public class Knight extends Piece {
 
     private static final int[][] CANDIDATE_MOVE_COORDINATES = {{2, 1}, {1, 2}, {2, -1}, {1, -2}, {-1, 2}, {-2, 1}, {-2, -1}, {-1, -2}};
@@ -20,21 +22,24 @@ public class Knight extends Piece {
 
         ArrayList<Move> legalMoves = new ArrayList<>();
 
-        int candidateDestinationX, candidateDestinationY;
+        int candidateDestinationRow, candidateDestinationColumn;
 
         for (int[] currentCandidate : CANDIDATE_MOVE_COORDINATES) {
 
-            candidateDestinationX = this.piecePosition[0] + currentCandidate[0];
-            candidateDestinationY = this.piecePosition[1] + currentCandidate[1];
+            candidateDestinationRow = this.piecePositionRow + currentCandidate[0];
+            candidateDestinationColumn = this.piecePositionColumn + currentCandidate[1];
 
-            if (Board.coordinateIsValid(candidateDestinationX, candidateDestinationY)) {
+            if (Board.coordinateIsValid(candidateDestinationRow, candidateDestinationColumn)) {
 
-                Tile candidateDestinationTile = board.getTile(candidateDestinationX, candidateDestinationY);
+                Tile candidateDestinationTile = board.getTile(candidateDestinationRow, candidateDestinationColumn);
 
-                if (!candidateDestinationTile.isTileOccupied() ||
-                        candidateDestinationTile.getPiece().getPieceAlliance() != this.pieceAlliance) {
+                if (!candidateDestinationTile.isTileOccupied()) {
 
-                    legalMoves.add(new Move());
+                    legalMoves.add(new MajorMove(board, this, candidateDestinationRow, candidateDestinationColumn));
+
+                } else if (candidateDestinationTile.getPiece().getPieceAlliance() != this.pieceAlliance) {
+
+                    legalMoves.add(new AttackMove(board, this, candidateDestinationRow, candidateDestinationColumn, candidateDestinationTile.getPiece()));
                 }
             }
         }

@@ -7,11 +7,12 @@ import java.util.Collection;
 
 public abstract class Piece {
 
-    protected final int[] piecePosition;
+    protected final int piecePositionRow, piecePositionColumn;
     protected Alliance pieceAlliance;
 
-    Piece(final int xPosition, final int yPosition, final Alliance pieceAlliance){
-        this.piecePosition = new int[] {xPosition, yPosition};
+    Piece(final int rowPosition, final int columnPosition, final Alliance pieceAlliance){
+        this.piecePositionRow = rowPosition;
+        this.piecePositionColumn = columnPosition;
         this.pieceAlliance = pieceAlliance;
     }
 
