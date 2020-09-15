@@ -52,6 +52,6 @@ public class Pawn extends Piece {
 
     public boolean isFirstMove() {
         return (pieceAlliance.equals(Alliance.BLACK) && piecePositionRow == 1) ||
-                (pieceAlliance.equals(Alliance.BLACK) && piecePositionRow == 6);
+                (pieceAlliance.equals(Alliance.WHITE) && piecePositionRow == 6);
     }
 }
