@@ -6,7 +6,8 @@ import board.Move;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static board.Move.*;
+import static board.Move.AttackMove;
+import static board.Move.MajorMove;
 
 public class Pawn extends Piece {
 
@@ -35,10 +36,11 @@ public class Pawn extends Piece {
 
                 legalMoves.add(new MajorMove(board, this, candidateDestinationRow, candidateDestinationColumn));
             } else if (currentCandidateOffset[0] == 2 && isFirstMove() &&
-                    !board.getTile(candidateDestinationRow, candidateDestinationColumn).isTileOccupied()) {
+                    !board.getTile(candidateDestinationRow, candidateDestinationColumn).isTileOccupied() &&
+                    board.getTile(candidateDestinationRow - 1, candidateDestinationColumn).isTileOccupied()) {
 
                 legalMoves.add(new MajorMove(board, this, candidateDestinationRow, candidateDestinationColumn));
-            } else if (board.getTile(candidateDestinationRow, candidateDestinationColumn).isTileOccupied()){
+            } else if (board.getTile(candidateDestinationRow, candidateDestinationColumn).isTileOccupied()) {
 
                 legalMoves.add(new AttackMove(board, this, candidateDestinationRow, candidateDestinationColumn,
                         board.getTile(candidateDestinationRow, candidateDestinationColumn).getPiece()));
