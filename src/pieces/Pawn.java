@@ -12,9 +12,11 @@ import static board.Move.MajorMove;
 public class Pawn extends Piece {
 
     private final static int[][] CANDIDATE_MOVE_COORDINATE = {{1, 0}, {2, 0}, {1, 1}, {1, -1}};
+    private boolean firstMove;
 
     Pawn(int rowPosition, int columnPosition, Alliance pieceAlliance) {
         super(rowPosition, columnPosition, pieceAlliance);
+        this.firstMove = true;
     }
 
     @Override
@@ -40,7 +42,8 @@ public class Pawn extends Piece {
                     board.getTile(candidateDestinationRow - 1, candidateDestinationColumn).isTileOccupied()) {
 
                 legalMoves.add(new MajorMove(board, this, candidateDestinationRow, candidateDestinationColumn));
-            } else if (board.getTile(candidateDestinationRow, candidateDestinationColumn).isTileOccupied()) {
+            } else if (board.getTile(candidateDestinationRow, candidateDestinationColumn).isTileOccupied() &&
+                        board.getTile(candidateDestinationRow, candidateDestinationColumn).getPiece().getPieceAlliance() != pieceAlliance) {
 
                 legalMoves.add(new AttackMove(board, this, candidateDestinationRow, candidateDestinationColumn,
                         board.getTile(candidateDestinationRow, candidateDestinationColumn).getPiece()));
@@ -51,7 +54,11 @@ public class Pawn extends Piece {
     }
 
     public boolean isFirstMove() {
-        return (pieceAlliance.equals(Alliance.BLACK) && piecePositionRow == 1) ||
-                (pieceAlliance.equals(Alliance.WHITE) && piecePositionRow == 6);
+        if (firstMove) {
+            firstMove = false;
+            return true;
+        }
+
+        return false;
     }
 }
