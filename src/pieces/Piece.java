@@ -29,4 +29,25 @@ public abstract class Piece {
     public int getPiecePositionColumn() {
         return piecePositionColumn;
     }
+
+    public enum PieceType {
+
+        Pawn("p"),
+        Knight("N"),
+        Bishop("B"),
+        Rook("R"),
+        Queen("Q"),
+        King("K");
+
+        private String pieceName;
+
+        PieceType(String pieceName) {
+            this.pieceName = pieceName;
+        }
+
+        @Override
+        public String toString() {
+            return this.pieceName;
+        }
+    }
 }

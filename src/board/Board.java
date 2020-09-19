@@ -17,6 +17,9 @@ public class Board {
         this.GAME_BOARD = createGameBoard(builder);
         this.whitePieces = calculateActivePiece (this.GAME_BOARD, Alliance.WHITE);
         this.blackPieces = calculateActivePiece (this.GAME_BOARD, Alliance.BLACK);
+
+        Collection<Move> whiteStandardLegalMoves = calculateLegalMoves(this.whitePieces);
+        Collection<Move> blackStandardLegalMoves = calculateLegalMoves(this.blackPieces);
     }
 
     private static ArrayList<Tile> createGameBoard(Builder builder) {
@@ -75,7 +78,7 @@ public class Board {
         return builder.build();
     }
 
-    private Collection<Piece> calculateActivePiece(ArrayList<Tile> gameBoard, Alliance alliance) {
+    private static Collection<Piece> calculateActivePiece(ArrayList<Tile> gameBoard, Alliance alliance) {
         ArrayList<Piece> activePieces = new ArrayList<>();
 
         for (Tile tile : gameBoard) {
@@ -89,13 +92,39 @@ public class Board {
         return activePieces;
     }
 
+    private Collection<Move> calculateLegalMoves(Collection<Piece> pieces) {
+        ArrayList<Move> legalMoves = new ArrayList<>();
+
+        for (Piece piece : pieces) {
+            legalMoves.addAll(piece.calculateMoves(this));
+        }
+
+        return legalMoves;
+    }
+
     public Tile getTile( int coordinateX, int coordinateY){
-        return null;
+        return this.GAME_BOARD.get((coordinateX * TILES_PER_ROW) + coordinateY);
     }
 
     public static boolean coordinateIsValid(int coordinateX, int coordinateY) {
 
         return ((coordinateX >= 0 && coordinateX < TILES_PER_ROW) && (coordinateY >= 0 && coordinateY < TILES_PER_ROW));
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0; i < NUM_TILES; i++) {
+            String tileText = this.GAME_BOARD.get(i).toString();
+            stringBuilder.append(String.format("%3s", tileText));
+
+            if ((i + 1) % TILES_PER_ROW == 0) {
+                stringBuilder.append('\n');
+            }
+        }
+
+        return stringBuilder.toString();
     }
 
     public static class Builder {
@@ -104,12 +133,14 @@ public class Board {
         private Alliance nextMoveMaker;
 
         public Builder () {
-            boardConfig = new HashMap<>();
+            this.boardConfig = new HashMap<>();
+            for (int i = 0; i < Board.TILES_PER_ROW; i ++) {
+                boardConfig.put(i, new HashMap<>());
+            }
         }
 
         public Builder setPiece(Piece piece) {
 
-            boardConfig.computeIfAbsent(piece.getPiecePositionRow(), k -> new HashMap<>());
 
                 boardConfig.get(piece.getPiecePositionRow()).put(piece.getPiecePositionColumn(), piece);
 

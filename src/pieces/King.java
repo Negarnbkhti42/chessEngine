@@ -28,9 +28,10 @@ public class King extends Piece {
             candidateDestinationRow += candidateCoordinateOffset[0];
             candidateDestinationColumn += candidateCoordinateOffset[1];
 
-            Tile candidateDestinationTile = board.getTile(candidateDestinationRow, candidateDestinationColumn);
 
             if (Board.coordinateIsValid(candidateDestinationRow, candidateDestinationColumn)) {
+
+                Tile candidateDestinationTile = board.getTile(candidateDestinationRow, candidateDestinationColumn);
 
                 if (!candidateDestinationTile.isTileOccupied()) {
 
@@ -49,5 +50,10 @@ public class King extends Piece {
 
 
         return legalMoves;
+    }
+
+    @Override
+    public String toString() {
+        return PieceType.King.toString();
     }
 }
