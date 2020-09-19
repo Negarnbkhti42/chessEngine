@@ -14,7 +14,7 @@ public class Pawn extends Piece {
     private final static int[][] CANDIDATE_MOVE_COORDINATE = {{1, 0}, {2, 0}, {1, 1}, {1, -1}};
     private boolean firstMove;
 
-    Pawn(int rowPosition, int columnPosition, Alliance pieceAlliance) {
+    public Pawn(int rowPosition, int columnPosition, Alliance pieceAlliance) {
         super(rowPosition, columnPosition, pieceAlliance);
         this.firstMove = true;
     }

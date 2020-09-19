@@ -11,7 +11,7 @@ public class King extends Piece {
 
     private final static int[][] CANDIDATE_MOVE_COORDINATE = {{1, 1}, {-1, 1}, {-1, -1}, {-1, 1}, {1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
-    King(int rowPosition, int columnPosition, Alliance pieceAlliance) {
+    public King(int rowPosition, int columnPosition, Alliance pieceAlliance) {
         super(rowPosition, columnPosition, pieceAlliance);
     }
 

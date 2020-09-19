@@ -11,7 +11,7 @@ public class Queen extends Piece {
 
     private static final int[][] CANDIDATE_VECTORS_COORDINATE = {{1, 1}, {-1, 1}, {-1, -1}, {-1, 1}, {1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
-    Queen(int rowPosition, int columnPosition, Alliance pieceAlliance) {
+    public Queen(int rowPosition, int columnPosition, Alliance pieceAlliance) {
         super(rowPosition, columnPosition, pieceAlliance);
     }
 

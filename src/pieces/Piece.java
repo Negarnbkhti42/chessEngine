@@ -21,4 +21,12 @@ public abstract class Piece {
     public Alliance getPieceAlliance() {
         return pieceAlliance;
     }
+
+    public int getPiecePositionRow() {
+        return piecePositionRow;
+    }
+
+    public int getPiecePositionColumn() {
+        return piecePositionColumn;
+    }
 }
