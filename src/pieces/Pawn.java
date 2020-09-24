@@ -15,7 +15,7 @@ public class Pawn extends Piece {
     private boolean firstMove;
 
     public Pawn(int rowPosition, int columnPosition, Alliance pieceAlliance) {
-        super(rowPosition, columnPosition, pieceAlliance);
+        super(PieceType.Pawn, rowPosition, columnPosition, pieceAlliance);
         this.firstMove = true;
     }
 

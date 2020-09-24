@@ -12,7 +12,7 @@ public class Rook extends Piece{
     private static final int[][] CANDIDATE_VECTORS_COORDINATE = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
     public Rook(int rowPosition, int columnPosition, Alliance pieceAlliance) {
-        super(rowPosition, columnPosition, pieceAlliance);
+        super(PieceType.Rook, rowPosition, columnPosition, pieceAlliance);
     }
 
     @Override

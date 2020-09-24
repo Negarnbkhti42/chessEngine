@@ -1,6 +1,8 @@
 package board;
 
 import pieces.*;
+import player.BlackPlayer;
+import player.WhitePlayer;
 
 import java.util.*;
 
@@ -13,6 +15,9 @@ public class Board {
     private final Collection<Piece> whitePieces;
     private final Collection<Piece> blackPieces;
 
+    private final WhitePlayer whitePlayer;
+    private final BlackPlayer blackPlayer;
+
     public Board(Builder builder) {
         this.GAME_BOARD = createGameBoard(builder);
         this.whitePieces = calculateActivePiece (this.GAME_BOARD, Alliance.WHITE);
@@ -20,6 +25,9 @@ public class Board {
 
         Collection<Move> whiteStandardLegalMoves = calculateLegalMoves(this.whitePieces);
         Collection<Move> blackStandardLegalMoves = calculateLegalMoves(this.blackPieces);
+
+        this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+        this.blackPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
     }
 
     private static ArrayList<Tile> createGameBoard(Builder builder) {
@@ -125,6 +133,14 @@ public class Board {
         }
 
         return stringBuilder.toString();
+    }
+
+    public Collection<Piece> getBlackPieces() {
+        return blackPieces;
+    }
+
+    public Collection<Piece> getWhitePieces() {
+        return whitePieces;
     }
 
     public static class Builder {

@@ -12,7 +12,7 @@ public class Bishop extends Piece {
     private static final int[][] CANDIDATE_VECTORS_COORDINATE = {{1, 1}, {-1, 1}, {-1, -1}, {-1, 1}};
 
     public Bishop(int rowPosition, int columnPosition, Alliance pieceAlliance) {
-        super(rowPosition, columnPosition, pieceAlliance);
+        super(PieceType.Bishop, rowPosition, columnPosition, pieceAlliance);
     }
 
     @Override
