@@ -143,6 +143,14 @@ public class Board {
         return whitePieces;
     }
 
+    public WhitePlayer getWhitePlayer() {
+        return whitePlayer;
+    }
+
+    public BlackPlayer getBlackPlayer() {
+        return blackPlayer;
+    }
+
     public static class Builder {
 
         private HashMap<Integer, HashMap<Integer, Piece>> boardConfig;

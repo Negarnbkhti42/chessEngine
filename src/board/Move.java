@@ -15,6 +15,14 @@ public abstract class Move {
         this.destinationCoordinateColumn = destinationColumn;
     }
 
+    public int getDestinationCoordinateRow() {
+        return destinationCoordinateRow;
+    }
+
+    public int getDestinationCoordinateColumn() {
+        return destinationCoordinateColumn;
+    }
+
     public static final class MajorMove extends Move {
 
 
