@@ -2,6 +2,7 @@ package player;
 
 import board.Board;
 import board.Move;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import pieces.Alliance;
 import pieces.King;
 import pieces.Piece;
@@ -77,7 +78,30 @@ public abstract class Player {
     }
 
     public MoveTransition makeMove(Move move) {
-        return null;
+        if (!isMoveLegal(move)) {
+            return new MoveTransition(this.board, move, MoveStatus.ILLEGAL_MOVE);
+        }
+
+        Board transitionBoard = move.execute();
+        Player currentPlayer = transitionBoard.getCurrentPlayer();
+        Collection<Move> kingAttacks = Player.calculateAttacksOnTile(
+                currentPlayer.getOpponent().getPlayerKing().getPiecePositionRow(),
+                currentPlayer.getOpponent().getPlayerKing().getPiecePositionColumn(),
+                transitionBoard.getCurrentPlayer().getLegalMoves());
+
+        if (!kingAttacks.isEmpty()) {
+            return new MoveTransition(this.board, move, MoveStatus.LEAVES_PLAYER_IN_CHECK);
+        }
+
+        return new MoveTransition(transitionBoard, move,MoveStatus.DONE);
+    }
+
+    public Collection<Move> getLegalMoves() {
+        return legalMoves;
+    }
+
+    public King getPlayerKing() {
+        return playerKing;
     }
 
     public abstract Collection<Piece> getActivePieces();

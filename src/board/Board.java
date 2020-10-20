@@ -2,6 +2,7 @@ package board;
 
 import pieces.*;
 import player.BlackPlayer;
+import player.Player;
 import player.WhitePlayer;
 
 import java.util.*;
@@ -17,6 +18,7 @@ public class Board {
 
     private final WhitePlayer whitePlayer;
     private final BlackPlayer blackPlayer;
+    private final Player currentPlayer;
 
     public Board(Builder builder) {
         this.GAME_BOARD = createGameBoard(builder);
@@ -28,6 +30,7 @@ public class Board {
 
         this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
         this.blackPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+        this.currentPlayer = null;
     }
 
     private static ArrayList<Tile> createGameBoard(Builder builder) {
@@ -149,6 +152,10 @@ public class Board {
 
     public BlackPlayer getBlackPlayer() {
         return blackPlayer;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
     public static class Builder {
