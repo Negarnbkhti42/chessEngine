@@ -43,7 +43,8 @@ public abstract class Move {
         private final Piece attackedPiece;
 
 
-        public AttackMove(final Board board, final Piece movedPiece, final int destinationRow, final int destinationColumn, final Piece attackedPiece) {
+        public AttackMove(final Board board, final Piece movedPiece, final int destinationRow, final int destinationColumn,
+                          final Piece attackedPiece) {
             super(board, movedPiece, destinationRow, destinationColumn);
             this.attackedPiece = attackedPiece;
         }

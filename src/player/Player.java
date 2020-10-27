@@ -17,7 +17,7 @@ public abstract class Player {
     protected final Collection<Move> legalMoves;
     private final boolean isInCheck;
 
-    Player(Board board, Collection<Move> legalMoves, Collection<Move> opponentMoves) {
+    Player(final Board board, final Collection<Move> legalMoves, final Collection<Move> opponentMoves) {
         this.board = board;
         this.playerKing = establishedKing();
         this.legalMoves = legalMoves;
