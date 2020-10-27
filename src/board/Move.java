@@ -2,11 +2,13 @@ package board;
 
 import pieces.Piece;
 
+import static board.Board.*;
+
 public abstract class Move {
 
-    private final Board board;
-    private final Piece movedPiece;
-    private final int destinationCoordinateRow, destinationCoordinateColumn;
+    protected final Board board;
+    protected final Piece movedPiece;
+    protected final int destinationCoordinateRow, destinationCoordinateColumn;
 
     public Move(final Board board, final Piece movedPiece, final int destinationRow, final int destinationColumn) {
         this.board = board;
@@ -34,7 +36,24 @@ public abstract class Move {
 
         @Override
         public Board execute() {
-            return null;
+
+
+            final Builder boardBuilder = new Builder();
+
+            //TODO: hashcode and equals code for pieces
+            for (final Piece piece : this.board.getCurrentPlayer().getActivePieces()) {
+                if (!this.movedPiece.equals(piece)) {
+                    boardBuilder.setPiece(piece);
+                }
+            }
+
+            for (final Piece piece : this.board.getCurrentPlayer().getOpponent().getActivePieces()) {
+                boardBuilder.setPiece(piece);
+            }
+
+            boardBuilder.setPiece(null);
+            boardBuilder.setMoveMaker(this.board.getCurrentPlayer().getOpponent().getAlliance());
+            return boardBuilder.build();
         }
     }
 
