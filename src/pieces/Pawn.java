@@ -16,7 +16,6 @@ public class Pawn extends Piece {
 
     public Pawn(int rowPosition, int columnPosition, Alliance pieceAlliance) {
         super(PieceType.Pawn, rowPosition, columnPosition, pieceAlliance);
-        this.firstMove = true;
     }
 
     @Override
@@ -51,15 +50,6 @@ public class Pawn extends Piece {
 
         }
         return legalMoves;
-    }
-
-    public boolean isFirstMove() {
-        if (firstMove) {
-            firstMove = false;
-            return true;
-        }
-
-        return false;
     }
 
     @Override
