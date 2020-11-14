@@ -36,6 +36,8 @@ public abstract class Piece {
         return piecePositionColumn;
     }
 
+    public abstract Piece movePiece(Move move);
+
     public enum PieceType {
 
         Pawn("p") {

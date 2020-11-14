@@ -53,6 +53,11 @@ public class King extends Piece {
     }
 
     @Override
+    public Piece movePiece(Move move) {
+        return new King(move.getDestinationCoordinateRow(),move.getDestinationCoordinateRow(),move.getMovedPiece().getPieceAlliance());
+    }
+
+    @Override
     public String toString() {
         return PieceType.King.toString();
     }

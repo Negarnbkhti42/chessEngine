@@ -25,6 +25,10 @@ public abstract class Move {
         return destinationCoordinateColumn;
     }
 
+    public Piece getMovedPiece() {
+        return movedPiece;
+    }
+
     public abstract Board execute();
 
     public static final class MajorMove extends Move {
@@ -51,7 +55,7 @@ public abstract class Move {
                 boardBuilder.setPiece(piece);
             }
 
-            boardBuilder.setPiece(null);
+            boardBuilder.setPiece(this.movedPiece.movePiece(this));
             boardBuilder.setMoveMaker(this.board.getCurrentPlayer().getOpponent().getAlliance());
             return boardBuilder.build();
         }
