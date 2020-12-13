@@ -158,6 +158,13 @@ public class Board {
         return currentPlayer;
     }
 
+    public Iterable<Move> getAllLegalMoves() {
+        ArrayList legalMoves = new ArrayList();
+        legalMoves.addAll(whitePlayer.getLegalMoves());
+        legalMoves.addAll(blackPlayer.getLegalMoves());
+        return legalMoves;
+    }
+
     public static class Builder {
 
         private HashMap<Integer, HashMap<Integer, Piece>> boardConfig;

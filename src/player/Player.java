@@ -2,7 +2,6 @@ package player;
 
 import board.Board;
 import board.Move;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import pieces.Alliance;
 import pieces.King;
 import pieces.Piece;
@@ -30,7 +29,7 @@ public abstract class Player {
         ArrayList<Move> attackMoves = new ArrayList<>();
 
         for (Move move : opponentMoves) {
-            if (piecePositionRow == move.getDestinationCoordinateRow() && piecePositionColumn == move.getDestinationCoordinateColumn()) {
+            if (piecePositionRow == move.getDestinationRow() && piecePositionColumn == move.getDestinationColumn()) {
                 attackMoves.add(move);
             }
         }
