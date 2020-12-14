@@ -169,6 +169,7 @@ public class Board {
 
         private HashMap<Integer, HashMap<Integer, Piece>> boardConfig;
         private Alliance nextMoveMaker;
+        private Pawn EnPassantPawn;
 
         public Builder () {
             this.boardConfig = new HashMap<>();
@@ -195,5 +196,9 @@ public class Board {
          public Board build() {
              return new Board(this);
          }
+
+        public void setEnPassantPawn(Pawn movedPawn) {
+            this.EnPassantPawn = movedPawn;
+        }
     }
 }
