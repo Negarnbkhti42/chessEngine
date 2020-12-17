@@ -25,7 +25,7 @@ public abstract class Player {
                 opponentMoves).isEmpty();
     }
 
-    private static Collection<Move> calculateAttacksOnTile(int piecePositionRow, int piecePositionColumn, Collection<Move> opponentMoves) {
+    protected static Collection<Move> calculateAttacksOnTile(int piecePositionRow, int piecePositionColumn, Collection<Move> opponentMoves) {
         ArrayList<Move> attackMoves = new ArrayList<>();
 
         for (Move move : opponentMoves) {
@@ -108,4 +108,6 @@ public abstract class Player {
     public abstract Alliance getAlliance();
 
     public abstract Player getOpponent();
+
+    protected abstract Collection<Move> calculateKingCastles(Collection<Move> playerLegals, Collection<Move> opponentLegals);
 }
