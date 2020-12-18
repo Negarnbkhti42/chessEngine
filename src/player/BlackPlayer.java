@@ -2,9 +2,12 @@ package player;
 
 import board.Board;
 import board.Move;
+import board.Move.KingSideCastleMove;
+import board.Move.QueenSideCastleMove;
 import board.Tile;
 import pieces.Alliance;
 import pieces.Piece;
+import pieces.Rook;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,7 +36,7 @@ public class BlackPlayer extends Player {
     }
 
     @Override
-    protected Collection<Move> calculateKingCastles(Collection<Move> playerLegals, Collection<Move> opponentLegals) {
+    protected Collection<Move> calculateKingCastles(final Collection<Move> playerLegals, final Collection<Move> opponentLegals) {
         //black's kingSide castle
         final List<Move> kingCastles = new ArrayList<>();
 
@@ -46,8 +49,9 @@ public class BlackPlayer extends Player {
                     if (Player.calculateAttacksOnTile(0, 5, opponentLegals).isEmpty() &&
                             Player.calculateAttacksOnTile(0, 6, opponentLegals).isEmpty() &&
                             rookTile.getPiece().getPieceType().isRook()) {
-                        kingCastles.add(null);
-                        //TODO: add a castle move
+                        kingCastles.add(new KingSideCastleMove(board, this.playerKing, 0, 6,
+                                (Rook) rookTile.getPiece(), rookTile.getTILE_COORDINATE_ROW(), rookTile.getTILE_COORDINATE_COLUMN(),
+                                0, 5));
                     }
                 }
             }
@@ -63,8 +67,9 @@ public class BlackPlayer extends Player {
                             Player.calculateAttacksOnTile(0, 2, opponentLegals).isEmpty() &&
                             Player.calculateAttacksOnTile(0, 3, opponentLegals).isEmpty() &&
                             rookTile.getPiece().getPieceType().isRook()) {
-                        kingCastles.add(null);
-                        //TODO: add castle move
+                        kingCastles.add(new QueenSideCastleMove(board, this.getPlayerKing(), 0, 2,
+                                (Rook) rookTile.getPiece(), rookTile.getTILE_COORDINATE_ROW(), rookTile.getTILE_COORDINATE_COLUMN(),
+                                0, 3));
                     }
 
                 }

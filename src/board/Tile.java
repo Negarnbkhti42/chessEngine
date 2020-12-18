@@ -40,6 +40,14 @@ public abstract class Tile {
         return new OccupiedTile(xCoordinate, yCoordinate, piece);
     }
 
+    public int getTILE_COORDINATE_COLUMN() {
+        return TILE_COORDINATE_COLUMN;
+    }
+
+    public int getTILE_COORDINATE_ROW() {
+        return TILE_COORDINATE_ROW;
+    }
+
     public static final class EmptyTile extends Tile {
 
         private EmptyTile(final int xCoordinate, final int yCoordinate) {

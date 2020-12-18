@@ -20,6 +20,7 @@ public abstract class Player {
         this.board = board;
         this.playerKing = establishedKing();
         this.legalMoves = legalMoves;
+        this.legalMoves.addAll(calculateKingCastles(legalMoves, opponentMoves));
         this.isInCheck = !Player.calculateAttacksOnTile(this.playerKing.getPiecePositionRow(),
                 this.playerKing.getPiecePositionColumn(),
                 opponentMoves).isEmpty();
@@ -109,5 +110,5 @@ public abstract class Player {
 
     public abstract Player getOpponent();
 
-    protected abstract Collection<Move> calculateKingCastles(Collection<Move> playerLegals, Collection<Move> opponentLegals);
+    protected abstract Collection<Move> calculateKingCastles(final Collection<Move> playerLegals, final Collection<Move> opponentLegals);
 }
