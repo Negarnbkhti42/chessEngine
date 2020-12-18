@@ -2,8 +2,9 @@ package board;
 
 import pieces.Pawn;
 import pieces.Piece;
+import pieces.Rook;
 
-import static board.Board.*;
+import static board.Board.Builder;
 
 public abstract class Move {
 
@@ -36,7 +37,7 @@ public abstract class Move {
         if (this == other) {
             return true;
         }
-        if (! (other instanceof Move)) {
+        if (!(other instanceof Move)) {
             return false;
         }
         final Move otherMove = (Move) other;
@@ -127,7 +128,7 @@ public abstract class Move {
             if (this == other) {
                 return true;
             }
-            if (! (other instanceof AttackMove)) {
+            if (!(other instanceof AttackMove)) {
                 return false;
             }
             final AttackMove otherAttackMove = (AttackMove) other;
@@ -165,7 +166,7 @@ public abstract class Move {
         }
     }
 
-    public static final class PawnEnPassantAttackMove extends PawnAttackMove{
+    public static final class PawnEnPassantAttackMove extends PawnAttackMove {
 
         public PawnEnPassantAttackMove(Board board, Piece movedPiece, int destinationRow, int destinationColumn, Piece attackedPiece) {
             super(board, movedPiece, destinationRow, destinationColumn, attackedPiece);
@@ -202,31 +203,89 @@ public abstract class Move {
 
     static abstract class CastleMove extends Move {
 
+        protected final Rook castleRook;
+        protected final int[] castleRookStart;
+        protected final int[] castleRookDestination;
 
-        public CastleMove(final Board board, final Piece movedPiece, final int destinationRow, final int destinationColumn) {
+        public CastleMove(final Board board, final Piece movedPiece, final int destinationRow, final int destinationColumn,
+                          final Rook castleRook, final int rookStartRow, final int rookStartColumn,
+                          final int rookDestinationRow, final int rookDestinationColumn) {
+
             super(board, movedPiece, destinationRow, destinationColumn);
+
+            this.castleRook = castleRook;
+            this.castleRookStart = new int[]{rookStartRow, rookStartColumn};
+            this.castleRookDestination = new int[]{rookDestinationRow, rookDestinationColumn};
         }
 
+        public Rook getCastleRook() {
+            return castleRook;
+        }
+
+        @Override
+        public boolean isCastlingMove() {
+            return true;
+        }
+
+        @Override
+        public Board execute() {
+            Builder builder = new Builder();
+
+            for (final Piece piece : board.getCurrentPlayer().getActivePieces()) {
+                if (!this.movedPiece.equals(piece) && !this.castleRook.equals(piece)) {
+                    builder.setPiece(piece);
+                }
+            }
+
+            for (final Piece piece : board.getCurrentPlayer().getOpponent().getActivePieces()) {
+                builder.setPiece(piece);
+            }
+
+            builder.setPiece(this.movedPiece.movePiece(this));
+            //TODO: look into the first move for pieces
+            builder.setPiece(new Rook(this.castleRook.getPiecePositionRow(), this.castleRook.getPiecePositionColumn(),
+                    this.castleRook.getPieceAlliance()));
+            builder.setMoveMaker(this.board.getCurrentPlayer().getOpponent().getAlliance());
+            return builder.build();
+        }
     }
 
     public static final class KingSideCastleMove extends CastleMove {
 
-        public KingSideCastleMove(Board board, Piece movedPiece, int destinationRow, int destinationColumn) {
-            super(board, movedPiece, destinationRow, destinationColumn);
+        public KingSideCastleMove(Board board, Piece movedPiece, int destinationRow, int destinationColumn,
+                                  final Rook castleRook, final int rookStartRow, final int rookStartColumn,
+                                  final int rookDestinationRow, final int rookDestinationColumn) {
+            super(board, movedPiece, destinationRow, destinationColumn,
+                    castleRook, rookStartRow, rookStartColumn,
+                    rookDestinationRow, rookDestinationColumn);
+        }
+
+        @Override
+        public String toString() {
+            return "O-O";
         }
     }
 
     public static final class QueenSideCastleMove extends CastleMove {
 
-        public QueenSideCastleMove(Board board, Piece movedPiece, int destinationRow, int destinationColumn) {
-            super(board, movedPiece, destinationRow, destinationColumn);
+        public QueenSideCastleMove(Board board, Piece movedPiece, int destinationRow, int destinationColumn,
+                                   final Rook castleRook, final int rookStartRow, final int rookStartColumn,
+                                   final int rookDestinationRow, final int rookDestinationColumn) {
+            super(board, movedPiece, destinationRow, destinationColumn,
+                    castleRook, rookStartRow, rookStartColumn,
+                    rookDestinationRow, rookDestinationColumn);
+        }
+
+        @Override
+        public String toString() {
+            return "O-O-O";
         }
     }
 
     public static final class NullMove extends Move {
 
         public NullMove() {
-            super(null,null, -1, -1);
+            super(null, null, -1, -1);
         }
 
         @Override
@@ -243,7 +302,7 @@ public abstract class Move {
         public static Move createMove(final Board board,
                                       final int currentRow, final int currentColumn,
                                       final int destinationRow, final int destinationColumn) {
-            for (final Move move: board.getAllLegalMoves()) {
+            for (final Move move : board.getAllLegalMoves()) {
                 if ((move.getCurrentRow() == currentRow && move.getCurrentColumn() == currentColumn) &&
                         (move.getDestinationRow() == destinationRow && move.getDestinationColumn() == destinationColumn)) {
                     return move;
