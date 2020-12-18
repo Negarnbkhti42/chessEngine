@@ -52,6 +52,7 @@ public class WhitePlayer extends Player {
                 }
             }
 
+            //white's queenSide castle
             if (!this.board.getTile(7, 1).isTileOccupied() &&
                     !this.board.getTile(7, 2).isTileOccupied() &&
                     !this.board.getTile(7, 3).isTileOccupied()) {
