@@ -1,8 +1,9 @@
-package pieces;
+package com.chess.engine.pieces;
 
-import board.Board;
-import board.Move;
-import board.Tile;
+import com.chess.engine.Alliance;
+import com.chess.engine.board.Board;
+import com.chess.engine.board.Move;
+import com.chess.engine.board.Tile;
 
 import java.util.ArrayList;
 import java.util.Collection;

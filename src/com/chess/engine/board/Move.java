@@ -1,10 +1,10 @@
-package board;
+package com.chess.engine.board;
 
-import pieces.Pawn;
-import pieces.Piece;
-import pieces.Rook;
+import com.chess.engine.pieces.Pawn;
+import com.chess.engine.pieces.Piece;
+import com.chess.engine.pieces.Rook;
 
-import static board.Board.Builder;
+import static com.chess.engine.board.Board.Builder;
 
 public abstract class Move {
 
@@ -242,7 +242,7 @@ public abstract class Move {
             }
 
             builder.setPiece(this.movedPiece.movePiece(this));
-            //TODO: look into the first move for pieces
+            //TODO: look into the first move for com.chess.engine.pieces
             builder.setPiece(new Rook(this.castleRook.getPiecePositionRow(), this.castleRook.getPiecePositionColumn(),
                     this.castleRook.getPieceAlliance()));
             builder.setMoveMaker(this.board.getCurrentPlayer().getOpponent().getAlliance());

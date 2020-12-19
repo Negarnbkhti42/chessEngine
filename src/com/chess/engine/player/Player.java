@@ -1,10 +1,10 @@
-package player;
+package com.chess.engine.player;
 
-import board.Board;
-import board.Move;
-import pieces.Alliance;
-import pieces.King;
-import pieces.Piece;
+import com.chess.engine.board.Board;
+import com.chess.engine.board.Move;
+import com.chess.engine.Alliance;
+import com.chess.engine.pieces.King;
+import com.chess.engine.pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.Collection;

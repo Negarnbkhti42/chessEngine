@@ -1,10 +1,8 @@
-package pieces;
+package com.chess.engine;
 
-import player.BlackPlayer;
-import player.Player;
-import player.WhitePlayer;
-
-import java.util.concurrent.BlockingDeque;
+import com.chess.engine.player.BlackPlayer;
+import com.chess.engine.player.Player;
+import com.chess.engine.player.WhitePlayer;
 
 public enum Alliance {
     WHITE {

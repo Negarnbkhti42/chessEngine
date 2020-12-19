@@ -1,17 +1,17 @@
-package player;
+package com.chess.engine.player;
 
-import board.Board;
-import board.Move;
-import board.Tile;
-import pieces.Alliance;
-import pieces.Piece;
-import pieces.Rook;
+import com.chess.engine.board.Board;
+import com.chess.engine.board.Move;
+import com.chess.engine.board.Tile;
+import com.chess.engine.Alliance;
+import com.chess.engine.pieces.Piece;
+import com.chess.engine.pieces.Rook;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static board.Move.*;
+import static com.chess.engine.board.Move.*;
 
 public class WhitePlayer extends Player {
 

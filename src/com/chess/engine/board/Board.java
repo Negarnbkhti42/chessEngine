@@ -1,9 +1,11 @@
-package board;
+package com.chess.engine.board;
 
-import pieces.*;
-import player.BlackPlayer;
-import player.Player;
-import player.WhitePlayer;
+import com.chess.engine.Alliance;
+import com.chess.engine.pieces.*;
+import com.chess.engine.player.BlackPlayer;
+import com.chess.engine.player.Player;
+import com.chess.engine.player.WhitePlayer;
+import javafx.scene.control.Alert;
 
 import java.util.*;
 
@@ -52,7 +54,7 @@ public class Board {
     public static Board createStandardBoard() {
         Builder builder = new Builder();
 
-        builder.setPiece(new Rook(0, 0 ,Alliance.BLACK));
+        builder.setPiece(new Rook(0, 0 , Alliance.BLACK));
         builder.setPiece(new Knight(0, 1, Alliance.BLACK));
         builder.setPiece(new Bishop(0, 2, Alliance.BLACK));
         builder.setPiece(new Queen(0, 3, Alliance.BLACK));
@@ -69,7 +71,7 @@ public class Board {
         builder.setPiece(new Pawn(1, 6, Alliance.BLACK));
         builder.setPiece(new Pawn(1, 7, Alliance.BLACK));
 
-        builder.setPiece(new Rook(7, 0 ,Alliance.WHITE));
+        builder.setPiece(new Rook(7, 0 , Alliance.WHITE));
         builder.setPiece(new Knight(7, 1, Alliance.WHITE));
         builder.setPiece(new Bishop(7, 2, Alliance.WHITE));
         builder.setPiece(new Queen(7, 3, Alliance.WHITE));
@@ -86,6 +88,7 @@ public class Board {
         builder.setPiece(new Pawn(6, 6, Alliance.WHITE));
         builder.setPiece(new Pawn(6, 7, Alliance.WHITE));
 
+        builder.setMoveMaker(Alliance.WHITE);
         return builder.build();
     }
 

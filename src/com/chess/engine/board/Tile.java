@@ -1,6 +1,6 @@
-package board;
+package com.chess.engine.board;
 
-import pieces.Piece;
+import com.chess.engine.pieces.Piece;
 
 import java.util.HashMap;
 
