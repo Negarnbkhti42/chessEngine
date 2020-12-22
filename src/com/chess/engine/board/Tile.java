@@ -13,9 +13,9 @@ public abstract class Tile {
     private static HashMap<Integer, HashMap<Integer, EmptyTile>> createAllEmptyTiles() {
         HashMap<Integer, HashMap<Integer, EmptyTile>> columns = new HashMap<>();
 
-        for (int i = 0; i < Board.TILES_PER_ROW; i++) {
+        for (int i = 0; i < BoardUtils.TILES_PER_ROW; i++) {
             columns.put(i, new HashMap<>());
-            for (int j = 0; j < Board.TILES_PER_ROW; j++) {
+            for (int j = 0; j < BoardUtils.TILES_PER_ROW; j++) {
                 columns.get(i).put(j, new EmptyTile(i, j));
             }
         }

@@ -1,7 +1,6 @@
 package com.chess.gui;
 
-import com.chess.engine.board.Board;
-import javafx.scene.image.PixelReader;
+import com.chess.engine.board.BoardUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,9 +14,12 @@ public class Table {
     private final JFrame gameFrame;
     private final BoardPanel boardPanel;
 
-    private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(800, 800);
+    private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(600, 600);
     private final static Dimension BOARD_PANEL_DIMENSION = new Dimension(400, 350);
     private final static Dimension TILE_PANEL_DIMENSION = new Dimension(10, 10);
+
+    private final Color lightTileColor = Color.decode("#FFFACD");
+    private final Color darkTileColor = Color.decode("#593E1A");
 
     public Table() {
         this.gameFrame = new JFrame("JChess");
@@ -49,8 +51,16 @@ public class Table {
                 System.out.println("open that pgn file");
             }
         });
-
         fileMenu.add(openPGN);
+
+        final JMenuItem exitMenuItem = new JMenuItem("Exit");
+        exitMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        fileMenu.add(exitMenuItem);
 
         return fileMenu;
     }
@@ -62,7 +72,7 @@ public class Table {
             super(new GridLayout(8, 8));
             this.boardTiles = new ArrayList<>();
 
-            for (int i = 0; i < Board.NUM_TILES; i++) {
+            for (int i = 0; i < BoardUtils.NUM_TILES; i++) {
                 final TilePanel tilePanel = new TilePanel(this, i);
                 this.boardTiles.add(tilePanel);
                 add(tilePanel);
@@ -86,6 +96,17 @@ public class Table {
 
         private void assignTileColor() {
 
+            if (BoardUtils.FIRST_ROW.get(this.tileId) ||
+                    BoardUtils.THIRD_ROW.get(this.tileId) ||
+                    BoardUtils.FIFTH_ROW.get(this.tileId) ||
+                    BoardUtils.SEVENTH_ROW.get(this.tileId)) {
+                setBackground(this.tileId % 2 == 0 ? lightTileColor : darkTileColor);
+            } else if (BoardUtils.SECOND_ROW.get(this.tileId) ||
+                    BoardUtils.FOURTH_ROW.get(this.tileId) ||
+                    BoardUtils.SIXTH_ROW.get(this.tileId) ||
+                    BoardUtils.EIGHTH_ROW.get(this.tileId)) {
+                setBackground(this.tileId % 2 != 0 ? lightTileColor : darkTileColor);
+            }
         }
 
     }

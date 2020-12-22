@@ -5,14 +5,10 @@ import com.chess.engine.pieces.*;
 import com.chess.engine.player.BlackPlayer;
 import com.chess.engine.player.Player;
 import com.chess.engine.player.WhitePlayer;
-import javafx.scene.control.Alert;
 
 import java.util.*;
 
 public class Board {
-
-    public static final int NUM_TILES = 64;
-    public static final int TILES_PER_ROW = 8;
 
     private final ArrayList<Tile> GAME_BOARD;
     private final Collection<Piece> whitePieces;
@@ -36,10 +32,10 @@ public class Board {
     }
 
     private static ArrayList<Tile> createGameBoard(Builder builder) {
-        Tile[][] tiles = new Tile[TILES_PER_ROW][TILES_PER_ROW];
+        Tile[][] tiles = new Tile[BoardUtils.TILES_PER_ROW][BoardUtils.TILES_PER_ROW];
 
-        for (int i = 0; i < TILES_PER_ROW; i++) {
-            for (int j = 0; j < TILES_PER_ROW; j++) {
+        for (int i = 0; i < BoardUtils.TILES_PER_ROW; i++) {
+            for (int j = 0; j < BoardUtils.TILES_PER_ROW; j++) {
                 tiles[i][j] = Tile.createTile(i, j, builder.boardConfig.get(i).get(j));
             }
         }
@@ -117,23 +113,23 @@ public class Board {
     }
 
     public Tile getTile( int coordinateX, int coordinateY){
-        return this.GAME_BOARD.get((coordinateX * TILES_PER_ROW) + coordinateY);
+        return this.GAME_BOARD.get((coordinateX * BoardUtils.TILES_PER_ROW) + coordinateY);
     }
 
     public static boolean coordinateIsValid(int coordinateX, int coordinateY) {
 
-        return ((coordinateX >= 0 && coordinateX < TILES_PER_ROW) && (coordinateY >= 0 && coordinateY < TILES_PER_ROW));
+        return ((coordinateX >= 0 && coordinateX < BoardUtils.TILES_PER_ROW) && (coordinateY >= 0 && coordinateY < BoardUtils.TILES_PER_ROW));
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (int i = 0; i < NUM_TILES; i++) {
+        for (int i = 0; i < BoardUtils.NUM_TILES; i++) {
             String tileText = this.GAME_BOARD.get(i).toString();
             stringBuilder.append(String.format("%3s", tileText));
 
-            if ((i + 1) % TILES_PER_ROW == 0) {
+            if ((i + 1) % BoardUtils.TILES_PER_ROW == 0) {
                 stringBuilder.append('\n');
             }
         }
@@ -176,7 +172,7 @@ public class Board {
 
         public Builder () {
             this.boardConfig = new HashMap<>();
-            for (int i = 0; i < Board.TILES_PER_ROW; i ++) {
+            for (int i = 0; i < BoardUtils.TILES_PER_ROW; i ++) {
                 boardConfig.put(i, new HashMap<>());
             }
         }
