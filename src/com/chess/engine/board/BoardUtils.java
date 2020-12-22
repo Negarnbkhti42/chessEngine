@@ -51,7 +51,7 @@ public class BoardUtils {
         for(int i = 0; i < row.length; i++) {
             row[i] = false;
         }
-
+        rowNumber *= TILES_PER_ROW;
         do {
             row[rowNumber] = true;
             rowNumber++;
