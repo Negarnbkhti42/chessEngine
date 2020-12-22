@@ -1,11 +1,16 @@
 package com.chess.gui;
 
+import com.chess.engine.board.Board;
 import com.chess.engine.board.BoardUtils;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +19,12 @@ public class Table {
     private final JFrame gameFrame;
     private final BoardPanel boardPanel;
 
+    private final Board chessBoard;
+
     private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(600, 600);
     private final static Dimension BOARD_PANEL_DIMENSION = new Dimension(400, 350);
     private final static Dimension TILE_PANEL_DIMENSION = new Dimension(10, 10);
+    private static String defaultPieceImagePath = "resource/";
 
     private final Color lightTileColor = Color.decode("#FFFACD");
     private final Color darkTileColor = Color.decode("#593E1A");
@@ -27,11 +35,13 @@ public class Table {
         final JMenuBar tableMenuBar = createTableMenuBar();
         this.gameFrame.setJMenuBar(tableMenuBar);
         this.gameFrame.setSize(OUTER_FRAME_DIMENSION);
-
+        this.chessBoard = Board.createStandardBoard();
         this.boardPanel = new BoardPanel();
         this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
 
+        this.gameFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.gameFrame.setVisible(true);
+
     }
 
     private JMenuBar createTableMenuBar() {
@@ -84,27 +94,47 @@ public class Table {
 
     private class TilePanel extends JPanel {
         private final int tileId;
+        private final int idRow;
+        private final int idColumn;
 
 
         TilePanel(final BoardPanel boardPanel, final int tileId) {
             super(new GridBagLayout());
             this.tileId = tileId;
+            this.idRow = this.tileId / BoardUtils.TILES_PER_ROW;
+            this.idColumn = this.tileId / BoardUtils.TILES_PER_ROW;
             setPreferredSize(TILE_PANEL_DIMENSION);
             assignTileColor();
+            assignTilePieceIcon(chessBoard);
             validate();
         }
 
-        private void assignTileColor() {
+        private void assignTilePieceIcon(final Board board) {
+            this.removeAll();
 
-            if (BoardUtils.FIRST_ROW.get(this.tileId) ||
-                    BoardUtils.THIRD_ROW.get(this.tileId) ||
-                    BoardUtils.FIFTH_ROW.get(this.tileId) ||
-                    BoardUtils.SEVENTH_ROW.get(this.tileId)) {
+            if (board.getTile(this.idRow, this.idColumn).isTileOccupied()) {
+
+                try {
+                    final BufferedImage image =
+                            ImageIO.read(new File(defaultPieceImagePath + board.getTile(this.idRow, this.idColumn).getPiece().getPieceAlliance().toString().substring(0, 1) +
+                                    board.getTile(this.idRow, this.idColumn).getPiece().toString() + ".png" ));
+                    add(new JLabel(new ImageIcon(image)));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        private void assignTileColor() {
+            if (BoardUtils.EIGHTH_RANK.get(this.tileId) ||
+                    BoardUtils.SIXTH_RANK.get(this.tileId) ||
+                    BoardUtils.FOURTH_RANK.get(this.tileId) ||
+                    BoardUtils.SECOND_RANK.get(this.tileId)) {
                 setBackground(this.tileId % 2 == 0 ? lightTileColor : darkTileColor);
-            } else if (BoardUtils.SECOND_ROW.get(this.tileId) ||
-                    BoardUtils.FOURTH_ROW.get(this.tileId) ||
-                    BoardUtils.SIXTH_ROW.get(this.tileId) ||
-                    BoardUtils.EIGHTH_ROW.get(this.tileId)) {
+            } else if (BoardUtils.SEVENTH_RANK.get(this.tileId) ||
+                    BoardUtils.FIFTH_RANK.get(this.tileId) ||
+                    BoardUtils.THIRD_RANK.get(this.tileId) ||
+                    BoardUtils.FIRST_RANK.get(this.tileId)) {
                 setBackground(this.tileId % 2 != 0 ? lightTileColor : darkTileColor);
             }
         }

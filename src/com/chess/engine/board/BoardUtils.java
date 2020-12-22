@@ -19,14 +19,14 @@ public class BoardUtils {
     public static final List<Boolean> SEVENTH_COLUMN = initColumn(6);
     public static final List<Boolean> EIGHTH_COLUMN = initColumn(7);
 
-    public static final List<Boolean> FIRST_ROW = initRow(0);
-    public static final List<Boolean> SECOND_ROW = initRow(1);
-    public static final List<Boolean> THIRD_ROW = initRow(2);
-    public static final List<Boolean> FOURTH_ROW = initRow(3);
-    public static final List<Boolean> FIFTH_ROW = initRow(4);
-    public static final List<Boolean> SIXTH_ROW = initRow(5);
-    public static final List<Boolean> SEVENTH_ROW = initRow(6);
-    public static final List<Boolean> EIGHTH_ROW = initRow(7);
+    public static final List<Boolean> EIGHTH_RANK = initRow(0);
+    public static final List<Boolean> SEVENTH_RANK = initRow(1);
+    public static final List<Boolean> SIXTH_RANK = initRow(2);
+    public static final List<Boolean> FIFTH_RANK = initRow(3);
+    public static final List<Boolean> FOURTH_RANK = initRow(4);
+    public static final List<Boolean> THIRD_RANK = initRow(5);
+    public static final List<Boolean> SECOND_RANK = initRow(6);
+    public static final List<Boolean> FIRST_RANK = initRow(7);
 
     private static List<Boolean> initColumn(int columnNumber) {
 
