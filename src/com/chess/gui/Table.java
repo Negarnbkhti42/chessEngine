@@ -110,10 +110,9 @@ public class Table {
             for (final TilePanel tilePanel : boardTiles) {
                 tilePanel.drawTile(board);
                 add(tilePanel);
-
-                validate();
-                repaint();
             }
+            validate();
+            repaint();
         }
     }
 
@@ -153,6 +152,7 @@ public class Table {
                             destinationTile = chessBoard.getTile(idRow, idColumn);
                             final Move move = Move.MoveFactory.createMove(chessBoard, sourceTile.getTILE_COORDINATE_ROW(), sourceTile.getTILE_COORDINATE_COLUMN(),
                                     destinationTile.getTILE_COORDINATE_ROW(), destinationTile.getTILE_COORDINATE_COLUMN());
+                           // System.out.println(move.getDestinationRow() + " " + move.getDestinationColumn());
                             MoveTransition transition = chessBoard.getCurrentPlayer().makeMove(move);
                             if (transition.getMoveStatus().isDone()) {
                                 chessBoard = transition.getTransitionBoard();

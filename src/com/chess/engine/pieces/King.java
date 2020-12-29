@@ -55,7 +55,7 @@ public class King extends Piece {
 
     @Override
     public Piece movePiece(Move move) {
-        return new King(move.getDestinationRow(),move.getDestinationRow(),move.getMovedPiece().getPieceAlliance());
+        return new King(move.getDestinationRow(),move.getDestinationColumn(),move.getMovedPiece().getPieceAlliance());
     }
 
     @Override
