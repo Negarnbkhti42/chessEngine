@@ -19,6 +19,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static javax.swing.SwingUtilities.isLeftMouseButton;
@@ -35,6 +37,8 @@ public class Table {
     private Tile destinationTile;
     private Piece humanMovedPiece;
     private BoardDirection boardDirection;
+
+    private boolean highlightLegalMoves;
 
     private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(600, 600);
     private final static Dimension BOARD_PANEL_DIMENSION = new Dimension(400, 350);
@@ -53,6 +57,7 @@ public class Table {
         this.chessBoard = Board.createStandardBoard();
         this.boardPanel = new BoardPanel();
         this.boardDirection = BoardDirection.NORMAL;
+        this.highlightLegalMoves = false;
         this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
 
         this.gameFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -103,6 +108,17 @@ public class Table {
             }
         });
         preferencesMenu.add(flipBoard);
+
+        preferencesMenu.addSeparator();
+
+        final JCheckBoxMenuItem legalMoveHighlighterCheckBox = new JCheckBoxMenuItem("highlight legal moves", false);
+        legalMoveHighlighterCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                highlightLegalMoves = legalMoveHighlighterCheckBox.isSelected();
+            }
+        });
+        preferencesMenu.add(legalMoveHighlighterCheckBox);
         return preferencesMenu;
     }
 
@@ -161,6 +177,7 @@ public class Table {
                             //first click
                             sourceTile = chessBoard.getTile(idRow, idColumn);
                             humanMovedPiece = sourceTile.getPiece();
+                            highlightLegalMoves(chessBoard);
                             if (humanMovedPiece == null ||
                                     (humanMovedPiece.getPieceAlliance() != chessBoard.getCurrentPlayer().getAlliance())) {
                                 sourceTile = null;
@@ -215,6 +232,7 @@ public class Table {
         public void drawTile(final Board board) {
             assignTileColor();
             assignTilePieceIcon(board);
+            highlightLegalMoves(chessBoard);
             validate();
             repaint();
         }
@@ -249,6 +267,26 @@ public class Table {
             }
         }
 
+        private void highlightLegalMoves(final Board board) {
+            if (highlightLegalMoves) {
+                for (final Move move : pieceLegalMoves(board)) {
+                    if (move.getDestinationRow() == this.idRow && move.getDestinationColumn() == this.idColumn) {
+                        try {
+                            add(new JLabel(new ImageIcon(ImageIO.read(new File("resource/green-dot-small.png")))));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+
+        private Collection<Move> pieceLegalMoves(final Board board) {
+            if (humanMovedPiece != null && humanMovedPiece.getPieceAlliance() == board.getCurrentPlayer().getAlliance()) {
+                return humanMovedPiece.calculateMoves(board);
+            }
+            return Collections.emptyList();
+        }
     }
 
     public enum BoardDirection {
