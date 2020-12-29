@@ -6,6 +6,7 @@ import com.chess.engine.board.Move;
 import com.chess.engine.board.Tile;
 import com.chess.engine.pieces.Piece;
 import com.chess.engine.player.MoveTransition;
+import com.google.common.collect.Lists;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -33,6 +34,7 @@ public class Table {
     private Tile sourceTile;
     private Tile destinationTile;
     private Piece humanMovedPiece;
+    private BoardDirection boardDirection;
 
     private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(600, 600);
     private final static Dimension BOARD_PANEL_DIMENSION = new Dimension(400, 350);
@@ -50,6 +52,7 @@ public class Table {
         this.gameFrame.setSize(OUTER_FRAME_DIMENSION);
         this.chessBoard = Board.createStandardBoard();
         this.boardPanel = new BoardPanel();
+        this.boardDirection = BoardDirection.NORMAL;
         this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
 
         this.gameFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -60,7 +63,7 @@ public class Table {
     private JMenuBar createTableMenuBar() {
         final JMenuBar tableMenuBar = new JMenuBar();
         tableMenuBar.add(createFileMenu());
-
+        tableMenuBar.add(createPreferencesMenu());
         return tableMenuBar;
     }
 
@@ -88,6 +91,21 @@ public class Table {
         return fileMenu;
     }
 
+    private JMenu createPreferencesMenu() {
+        final JMenu preferencesMenu = new JMenu("preferences");
+
+        final JMenuItem flipBoard = new JMenuItem("flip board");
+        flipBoard.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boardDirection = boardDirection.opposite();
+                boardPanel.drawBoard(chessBoard);
+            }
+        });
+        preferencesMenu.add(flipBoard);
+        return preferencesMenu;
+    }
+
     private class BoardPanel extends JPanel {
         private final List<TilePanel> boardTiles;
 
@@ -107,7 +125,7 @@ public class Table {
         public void drawBoard(final Board board) {
             removeAll();
 
-            for (final TilePanel tilePanel : boardTiles) {
+            for (final TilePanel tilePanel : boardDirection.traverse(boardTiles)) {
                 tilePanel.drawTile(board);
                 add(tilePanel);
             }
@@ -152,7 +170,6 @@ public class Table {
                             destinationTile = chessBoard.getTile(idRow, idColumn);
                             final Move move = Move.MoveFactory.createMove(chessBoard, sourceTile.getTILE_COORDINATE_ROW(), sourceTile.getTILE_COORDINATE_COLUMN(),
                                     destinationTile.getTILE_COORDINATE_ROW(), destinationTile.getTILE_COORDINATE_COLUMN());
-                           // System.out.println(move.getDestinationRow() + " " + move.getDestinationColumn());
                             MoveTransition transition = chessBoard.getCurrentPlayer().makeMove(move);
                             if (transition.getMoveStatus().isDone()) {
                                 chessBoard = transition.getTransitionBoard();
@@ -231,6 +248,35 @@ public class Table {
                 setBackground(this.tileId % 2 != 0 ? lightTileColor : darkTileColor);
             }
         }
+
+    }
+
+    public enum BoardDirection {
+            NORMAL {
+                @Override
+                List<TilePanel> traverse(List<TilePanel> boardTiles) {
+                    return boardTiles;
+                }
+
+                @Override
+                BoardDirection opposite() {
+                    return FLIPPED ;
+                }
+            },
+        FLIPPED {
+            @Override
+            List<TilePanel> traverse(List<TilePanel> boardTiles) {
+                return Lists.reverse(boardTiles);
+            }
+
+            @Override
+            BoardDirection opposite() {
+                return NORMAL;
+            }
+        };
+
+            abstract List<TilePanel> traverse(final List<TilePanel> boardTiles);
+            abstract BoardDirection opposite();
 
     }
 
