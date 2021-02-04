@@ -15,12 +15,13 @@ public abstract class Piece {
     protected boolean firstMove;
     private final int cashedHashCode;
 
-    Piece(final PieceType pieceType, final int rowPosition, final int columnPosition, final Alliance pieceAlliance){
+    Piece(final PieceType pieceType, final int rowPosition, final int columnPosition,
+          final Alliance pieceAlliance, final boolean firstMove){
         this.pieceType = pieceType;
         this.piecePositionRow = rowPosition;
         this.piecePositionColumn = columnPosition;
         this.pieceAlliance = pieceAlliance;
-        this.firstMove = false;
+        this.firstMove = firstMove;
         this.cashedHashCode = computeHashCode();
     }
 
@@ -29,19 +30,14 @@ public abstract class Piece {
         result = 31 * result + pieceAlliance.hashCode();
         result = 31 * result + piecePositionRow;
         result = 31 * result + piecePositionColumn;
-        result = 31 * result + (isFirstMove()? 1 : 0);
+        result = 31 * result + (firstMove? 1 : 0);
         return result;
     }
 
     public abstract Collection<Move> calculateMoves(final Board board);
 
     public boolean isFirstMove() {
-        if (firstMove) {
-            firstMove = false;
-            return true;
-        }
-
-        return false;
+       return firstMove;
     }
 
     public PieceType getPieceType() {

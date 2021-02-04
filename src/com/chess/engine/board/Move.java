@@ -11,6 +11,7 @@ public abstract class Move {
     protected final Board board;
     protected final Piece movedPiece;
     protected final int destinationRow, destinationColumn;
+    protected final boolean isFirstMove;
 
     public static final Move NULL_MOVE = new NullMove();
 
@@ -19,6 +20,15 @@ public abstract class Move {
         this.movedPiece = movedPiece;
         this.destinationRow = destinationRow;
         this.destinationColumn = destinationColumn;
+        this.isFirstMove = movedPiece.isFirstMove();
+    }
+
+    private Move(final Board board, final int destinationRow, final int destinationColumn) {
+        this.board = board;
+        this.destinationRow = destinationRow;
+        this.destinationColumn = destinationColumn;
+        this.movedPiece = null;
+        this.isFirstMove = false;
     }
 
     @Override
@@ -29,6 +39,8 @@ public abstract class Move {
         result = prime * result + this.destinationColumn;
         result = prime * result + this.destinationRow;
         result = prime * result + this.movedPiece.hashCode();
+        result = prime * result + this.movedPiece.getPiecePositionColumn();
+        result = prime * result + this.movedPiece.getPiecePositionRow();
         return result;
     }
 
@@ -42,7 +54,10 @@ public abstract class Move {
         }
         final Move otherMove = (Move) other;
 
-        return getDestinationColumn() == otherMove.getDestinationColumn() && getDestinationRow() == otherMove.getDestinationRow()
+        return getCurrentRow() == otherMove.getCurrentRow()
+                && getCurrentColumn() == otherMove.getCurrentColumn()
+                && getDestinationColumn() == otherMove.getDestinationColumn()
+                && getDestinationRow() == otherMove.getDestinationRow()
                 && getMovedPiece().equals(otherMove.getMovedPiece());
     }
 
@@ -105,6 +120,15 @@ public abstract class Move {
             super(board, movedPiece, destinationRow, destinationColumn);
         }
 
+        @Override
+        public boolean equals(Object other) {
+            return this == other || other instanceof MajorMove && super.equals(other);
+        }
+
+        @Override
+        public String toString() {
+            return movedPiece.getPieceType().toString() + BoardUtils.getPositionAtCoordinate(getDestinationRow(), getDestinationColumn());
+        }
     }
 
     public static class AttackMove extends Move {

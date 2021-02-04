@@ -2,6 +2,7 @@ package com.chess.engine.pieces;
 
 import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
+import com.chess.engine.board.BoardUtils;
 import com.chess.engine.board.Move;
 import com.chess.engine.board.Tile;
 
@@ -15,7 +16,11 @@ public class Knight extends Piece {
     private static final int[][] CANDIDATE_MOVE_COORDINATES = {{2, 1}, {1, 2}, {2, -1}, {1, -2}, {-1, 2}, {-2, 1}, {-2, -1}, {-1, -2}};
 
     public Knight(final int xPosition, final int yPosition, final Alliance pieceAlliance) {
-        super(PieceType.Knight, xPosition, yPosition, pieceAlliance);
+        super(PieceType.Knight, xPosition, yPosition, pieceAlliance, true);
+    }
+
+    public Knight(final int xPosition, final int yPosition, final Alliance pieceAlliance, boolean firstMove) {
+        super(PieceType.Knight, xPosition, yPosition, pieceAlliance, firstMove);
     }
 
     @Override
@@ -30,7 +35,7 @@ public class Knight extends Piece {
             candidateDestinationRow = this.piecePositionRow + currentCandidate[0];
             candidateDestinationColumn = this.piecePositionColumn + currentCandidate[1];
 
-            if (Board.coordinateIsValid(candidateDestinationRow, candidateDestinationColumn)) {
+            if (BoardUtils.coordinateIsValid(candidateDestinationRow, candidateDestinationColumn)) {
 
                 Tile candidateDestinationTile = board.getTile(candidateDestinationRow, candidateDestinationColumn);
 
@@ -49,7 +54,7 @@ public class Knight extends Piece {
 
     @Override
     public Piece movePiece(Move move) {
-        return new Knight(move.getDestinationRow(),move.getDestinationColumn(),move.getMovedPiece().getPieceAlliance());
+        return new Knight(move.getDestinationRow(),move.getDestinationColumn(),move.getMovedPiece().getPieceAlliance(), false);
     }
 
     @Override

@@ -116,11 +116,6 @@ public class Board {
         return this.GAME_BOARD.get((coordinateX * BoardUtils.TILES_PER_ROW) + coordinateY);
     }
 
-    public static boolean coordinateIsValid(int coordinateX, int coordinateY) {
-
-        return ((coordinateX >= 0 && coordinateX < BoardUtils.TILES_PER_ROW) && (coordinateY >= 0 && coordinateY < BoardUtils.TILES_PER_ROW));
-    }
-
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();

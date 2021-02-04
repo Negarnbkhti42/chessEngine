@@ -172,6 +172,7 @@ public class Table {
                         sourceTile = null;
                         destinationTile = null;
                         humanMovedPiece = null;
+                        boardPanel.drawBoard(chessBoard);
                     } else if (isLeftMouseButton(e)) {
                         if (sourceTile == null) {
                             //first click

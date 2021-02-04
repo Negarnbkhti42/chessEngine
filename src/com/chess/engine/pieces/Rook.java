@@ -2,6 +2,7 @@ package com.chess.engine.pieces;
 
 import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
+import com.chess.engine.board.BoardUtils;
 import com.chess.engine.board.Move;
 import com.chess.engine.board.Tile;
 
@@ -13,7 +14,11 @@ public class Rook extends Piece{
     private static final int[][] CANDIDATE_VECTORS_COORDINATE = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
     public Rook(int rowPosition, int columnPosition, Alliance pieceAlliance) {
-        super(PieceType.Rook, rowPosition, columnPosition, pieceAlliance);
+        super(PieceType.Rook, rowPosition, columnPosition, pieceAlliance, true);
+    }
+
+    public Rook(int rowPosition, int columnPosition, Alliance pieceAlliance, boolean firstMove) {
+        super(PieceType.Rook, rowPosition, columnPosition, pieceAlliance, firstMove);
     }
 
     @Override
@@ -26,13 +31,13 @@ public class Rook extends Piece{
             int candidateDestinationRow = this.piecePositionRow;
             int candidateDestinationColumn = this.piecePositionColumn;
 
-            while (Board.coordinateIsValid(candidateDestinationRow, candidateDestinationColumn)) {
+            while (BoardUtils.coordinateIsValid(candidateDestinationRow, candidateDestinationColumn)) {
 
                 candidateDestinationRow += candidateCoordinateOffset[0];
                 candidateDestinationColumn += candidateCoordinateOffset[1];
 
 
-                if (Board.coordinateIsValid(candidateDestinationRow, candidateDestinationColumn)) {
+                if (BoardUtils.coordinateIsValid(candidateDestinationRow, candidateDestinationColumn)) {
 
                     Tile candidateDestinationTile = board.getTile(candidateDestinationRow, candidateDestinationColumn);
 
@@ -58,7 +63,7 @@ public class Rook extends Piece{
 
     @Override
     public Piece movePiece(Move move) {
-        return new Rook(move.getDestinationRow(),move.getDestinationColumn(),move.getMovedPiece().getPieceAlliance());
+        return new Rook(move.getDestinationRow(),move.getDestinationColumn(),move.getMovedPiece().getPieceAlliance(), false);
     }
 
     @Override

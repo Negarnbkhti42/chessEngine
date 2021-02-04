@@ -1,10 +1,9 @@
 package com.chess.engine.board;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BoardUtils {
     public static final int TILES_PER_ROW = 8;
@@ -27,6 +26,9 @@ public class BoardUtils {
     public static final List<Boolean> THIRD_RANK = initRow(5);
     public static final List<Boolean> SECOND_RANK = initRow(6);
     public static final List<Boolean> FIRST_RANK = initRow(7);
+
+    public static final String[][] ALGEBRAIC_NOTATION = initializeAlgebraicNotation();
+    public static final Map<String, Integer[]> POSITION_TO_COORDINATE = initializePositionToCoordinateMap();
 
     private static List<Boolean> initColumn(int columnNumber) {
 
@@ -60,4 +62,60 @@ public class BoardUtils {
         return Arrays.asList(row);
     }
 
+    private static String[][] initializeAlgebraicNotation() {
+        String[][] algebraicNotations = new String[8][8];
+
+        for (int i = 0; i < 8; i++) {
+            for (int j =0; j < 8; j++) {
+                char columnChar = getColumnChar(j);
+                algebraicNotations[i][j] = "" + columnChar + (8-i);
+            }
+        }
+
+        return algebraicNotations;
+    }
+
+    private static char getColumnChar(int column) {
+        switch (column) {
+            case 0 :
+                return 'a';
+            case 1 :
+                return 'b';
+            case 2 :
+                return 'c';
+            case 3 :
+                return 'd';
+            case 4 :
+                return 'e';
+            case 5 :
+                return 'f';
+            case 6 :
+                return 'g';
+            default:
+                return 'h';
+        }
+    }
+
+    private static Map<String, Integer[]> initializePositionToCoordinateMap() {
+        Map<String, Integer[]> coordinateMap = new HashMap<>();
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                coordinateMap.put(ALGEBRAIC_NOTATION[i][j], new Integer[] {i, j});
+            }
+        }
+        return coordinateMap;
+    }
+
+    public static boolean coordinateIsValid(int coordinateX, int coordinateY) {
+
+        return ((coordinateX >= 0 && coordinateX < TILES_PER_ROW) && (coordinateY >= 0 && coordinateY < TILES_PER_ROW));
+    }
+
+    public static Integer[] getCoordinateAtPosition (String position) {
+        return POSITION_TO_COORDINATE.get(position);
+    }
+
+    public static String getPositionAtCoordinate (int coordinateRow, int coordinateColumn) {
+        return ALGEBRAIC_NOTATION[coordinateRow] [coordinateColumn];
+    }
 }
