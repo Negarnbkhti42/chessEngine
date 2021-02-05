@@ -63,37 +63,17 @@ public class BoardUtils {
     }
 
     private static String[][] initializeAlgebraicNotation() {
-        String[][] algebraicNotations = new String[8][8];
 
-        for (int i = 0; i < 8; i++) {
-            for (int j =0; j < 8; j++) {
-                char columnChar = getColumnChar(j);
-                algebraicNotations[i][j] = "" + columnChar + (8-i);
-            }
-        }
-
-        return algebraicNotations;
-    }
-
-    private static char getColumnChar(int column) {
-        switch (column) {
-            case 0 :
-                return 'a';
-            case 1 :
-                return 'b';
-            case 2 :
-                return 'c';
-            case 3 :
-                return 'd';
-            case 4 :
-                return 'e';
-            case 5 :
-                return 'f';
-            case 6 :
-                return 'g';
-            default:
-                return 'h';
-        }
+        return new String[][] {
+                {"a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"},
+                {"a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7"},
+                {"a6", "b6", "c6", "d6", "e6", "f6", "g6", "h6"},
+                {"a5", "b5", "c5", "d5", "e5", "f5", "g5", "h5"},
+                {"a4", "b4", "c4", "d4", "e4", "f4", "g4", "h4"},
+                {"a3", "b3", "c3", "d3", "e3", "f3", "g3", "h3"},
+                {"a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2"},
+                {"a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1"}
+        };
     }
 
     private static Map<String, Integer[]> initializePositionToCoordinateMap() {
